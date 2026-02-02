@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Registration Confirmation - Think Thrust</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f4f6f8;
+            min-height: 100vh;
+        }
+
+        /* Floating Back Button */
+        .floating-back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .floating-back-btn:hover {
+            background: white;
+            color: #333;
+            transform: translateX(5px);
+        }
+
+        /* ---------- NAVBAR (Replaced Sidebar) ---------- */
+        .top-navbar {
+            background: black;
+            padding: 20px 30px;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        .stepper {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            position: relative;
+            flex-wrap: wrap;
+        }
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+        }
+        .step-label {
+            color: #fff;
+            font-size: 14px;
+            font-weight: 500;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+        }
+        .circle {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 3px solid #adb5bd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+            font-weight: 600;
+            background: rgba(108, 117, 125, .7);
+            color: #fff;
+            flex-shrink: 0;
+            z-index: 2;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        .activein .circle {
+            background: #fff;
+            color: #6c757d;
+            border-color: #6c757d;
+        }
+        .completed .circle {
+            background: #198754;
+            border-color: #198754;
+            color: #fff;
+        }
+        .completed .circle::after {
+            content: "✓";
+            font-weight: bold;
+            font-size: 24px;
+            position: absolute;
+        }
+        /* Horizontal connecting line */
+        .stepper::before {
+            content: "";
+            position: absolute;
+            top: 21px;
+            left: 10%;
+            right: 10%;
+            height: 4px;
+            background: #198754;
+            border-radius: 4px;
+            z-index: 0;
+        }
+
+.step.activein::before {
+            content: "";
+            position: absolute;
+            top: 21px;
+            left: 0;
+            right: 30%;
+            height: 4px;
+            background: #6c757d;
+            z-index: 0;
+            border-radius: 4px;
+        }
+        .step.completed::before {
+            content: "";
+            position: absolute;
+            top: 21px;
+            left: 0;
+            right: 50%;
+            height: 4px;
+            background: #198754;
+            z-index: 0;
+            border-radius: 4px;
+        }
+        .step:last-child.completed::before {
+            right: 0;
+        }
+        .circle {
+            z-index: 1;
+        }
+
+        /* ---------- CONTENT ---------- */
+        .content {
+            flex: 1;
+           background: url('../Images/visivibelogo.jpeg') center/cover no-repeat;
+            padding: 50px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        /* ---------- REDUCED EVENT CARD ---------- */
+        .event-card {
+            background: white;
+            max-width: 680px;
+            width: 100%;
+            min-height: auto;
+            padding: 32px;
+            border-radius: 18px;
+            box-shadow: 0 14px 36px rgba(0, 0, 0, .35);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ---------- ENHANCED MESSAGE BOX ---------- */
+        .message-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 24px;
+            background: #e6f4ea;
+            padding: 40px 30px;
+            border-radius: 18px;
+            border: 2px solid #198754;
+            margin-bottom: 30px;
+            flex-grow: 1;
+            box-shadow: 0 6px 16px rgba(25, 135, 84, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .message-box:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 28px rgba(25, 135, 84, 0.25);
+        }
+        .message-box .tick {
+            font-size: 80px;
+            color: #198754;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .message-box .text {
+            font-size: 18px;
+            line-height: 1.7;
+            color: #155724;
+        }
+        .message-box strong {
+            font-size: 24px;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 12px;
+            color: #0f5132;
+        }
+        .message-box .extra-info {
+            margin-top: 16px;
+            font-size: 16px;
+            color: #0f5132;
+            font-style: italic;
+        }
+
+        /* Button */
+        .register-btn {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .register-btn button {
+            padding: 14px 48px;
+            font-size: 17px;
+            font-weight: 600;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 16px rgba(13, 110, 253, 0.3);
+        }
+        .register-btn button:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 12px 24px rgba(13, 110, 253, 0.4);
+        }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 992px) {
+            .stepper {
+                gap: 20px;
+            }
+            .stepper::before {
+                left: 8%;
+                right: 8%;
+            }
+        }
+        @media (max-width: 768px) {
+            .wrapper {
+                flex-direction: column;
+            }
+            .top-navbar {
+                padding: 18px 15px;
+            }
+            .stepper {
+                gap: 10px;
+            }
+            .step-label {
+                font-size: 12px;
+            }
+            .circle {
+                width: 38px;
+                height: 38px;
+                font-size: 15px;
+            }
+            .stepper::before {
+                top: 19px;
+                height: 3px;
+            }
+            .content {
+                padding: 40px 15px;
+            }
+            .event-card {
+                padding: 28px;
+                max-width: 600px;
+            }
+            .message-box {
+                padding: 32px 24px;
+            }
+            .message-box .tick {
+                font-size: 64px;
+            }
+            .message-box strong {
+                font-size: 22px;
+            }
+            .message-box .text {
+                font-size: 16px;
+            }
+        }
+        @media (max-width: 480px) {
+            .top-navbar {
+                padding: 16px 10px;
+            }
+            .step-label {
+                font-size: 11px;
+            }
+            .circle {
+                width: 34px;
+                height: 34px;
+                font-size: 14px;
+            }
+            .stepper::before {
+                top: 17px;
+            }
+            .event-card {
+                padding: 24px;
+                border-radius: 14px;
+            }
+            .message-box .tick {
+                font-size: 56px;
+            }
+            .message-box strong {
+                font-size: 20px;
+            }
+            .message-box .text {
+                font-size: 15px;
+            }
+            .register-btn button {
+                padding: 12px 36px;
+                font-size: 16px;
+            }
+            .mail{
+                color: #0f5132;
+                font-style: italic;
+            }
+            .mail:hover{
+                color:greenyellow;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+
+        <!-- Top Navbar (Replaced Sidebar) -->
+        <div class="top-navbar">
+            <div class="stepper">
+                <div class="step completed">
+                    <div class="circle"></div>
+                    <span class="step-label">Description</span>
+                </div>
+                <div class="step completed">
+                    <div class="circle"></div>
+                    <span class="step-label">Registration</span>
+                </div>
+                <div class="step activein">
+                    <div class="circle bg-primary text-white ">3</div>
+                    <span class="step-label">Confirmation</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="event-card">
+
+                <!-- Confirmation Message Box -->
+                <div class="message-box">
+                    <div class="tick"><i class="bi bi-check-circle-fill"></i></div>
+                    <div class="text">
+                        <strong>Your registration is confirmed!</strong>
+                        Congratulations! You're all set for Think Thrust at Visionary Vibes 2026.
+                        <br><br>
+                        We will email you the event schedule and venue details shortly.
+                        <div class="extra-info">
+                            Please check your inbox (and spam folder).<br>
+                            For any queries, contact the organizers via the event website.
+                        </div>
+                        <div class="email-box" ><br>
+                            <h4>Organizers:</h4>
+                                    <p class="mail"><a href="mailto:thinkthrust2k26@gmail.com">thinkthrust2k26@gmail.com</a></p>
+                        </div>
+                    </div>
+                </div>                
+
+                
+             <div class="register-btn d-flex justify-content-center gap-3">
+                            <button id="backBtn" class="btn btn-primary" onclick="history.back()">Back</button>
+                            <button id="register-btn" class="btn btn-primary" onclick="validateForm()">Finish</button>
+            </div>
+
+    </div>
+    <script>
+        document.getElementById("register-btn").onclick = function () {
+            // Change button color and text
+            this.classList.replace("btn-primary", "btn-success");
+            this.textContent = "Finished ✔";
+            this.disabled = true;
+
+            // Go to next page after a short delay (optional: 0.5s)
+            setTimeout(() => {
+                window.location.href = "/";
+            }, 500);
+        };
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
+
+
+
