@@ -1,4 +1,4 @@
-const API_BASE = 'http://localhost:5000';
+const API_BASE = 'symposium-8kzf0vtfb-thanush2412s-projects.vercel.app';
 
 function getEventId() {
     const params = new URLSearchParams(window.location.search);
